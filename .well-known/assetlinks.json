@@ -1,0 +1,10 @@
+[{
+ "relation": ["delegate_permission/common.handle_all_urls"],
+ "target": {
+   "namespace": "android_app",
+   "package_name": "app.adobe.ngl.twa",
+   "sha256_cert_fingerprints": [
+     "92:92:99:A5:31:A4:D8:87:B5:E5:DA:AE:1B:28:6A:20:23:5F:21:D4:98:62:2A:E9:B9:01:52:7D:D2:A4:AF:D9"
+   ]
+ }
+}]
