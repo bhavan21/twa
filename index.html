@@ -7,5 +7,29 @@
 </head>
 <body>
 	<h1>Sample TWA app</h1>
+	<p id="log"></p>	
+
+	<script type="text/javascript">
+		async function checkDigitalGoodsSupport() {
+			if ('getDigitalGoodsService' in window) {
+				// Digital Goods API is supported!
+				document.getElementById("log").innerHTML += "Digital Goods API is supported!<br>";
+				try {
+					const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+					// Google Play Billing is supported!
+					document.getElementById("log").innerHTML += "Google Play Billing is supported!<br>";
+				} catch (error) {
+					// Google Play Billing is not available. Use another payment flow.
+					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow.<br>";
+				}
+			}
+			else {
+				document.getElementById("log").innerHTML += "Digital Goods API is <b>NOT</b> supported!<br>";
+			}
+		}
+
+		// Call the async function
+		checkDigitalGoodsSupport();
+	</script>
 </body>
 </html>
