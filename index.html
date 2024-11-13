@@ -11,6 +11,7 @@
 
 	<script type="text/javascript">
 		async function checkDigitalGoodsSupport() {
+			document.getElementById("log").innerHTML += "User agent: " +  window.navigator.userAgent +"<br>";
 			if ('getDigitalGoodsService' in window) {
 				// Digital Goods API is supported!
 				document.getElementById("log").innerHTML += "Digital Goods API is supported!<br>";
