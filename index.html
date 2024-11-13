@@ -18,6 +18,20 @@
 					const service = await window.getDigitalGoodsService('https://play.google.com/billing');
 					// Google Play Billing is supported!
 					document.getElementById("log").innerHTML += "Google Play Billing is supported!<br>";
+
+					const skuDetails = await service.getDetails(['shiny_sword', 'gem']);
+					document.getElementById("log").innerHTML += "Loaded SKUs"
+					for (item of skuDetails) {
+					  // Format the price according to the user locale.
+					  const localizedPrice = new Intl.NumberFormat(
+					      navigator.language,
+					      {style: 'currency', currency: item.price.currency}
+					    ).format(item.price.value);
+
+					  // Render the price to the UI.
+					  renderProductDetails(
+					        item.itemId, item.title, localizedPrice, item.description);
+					}
 				} catch (error) {
 					// Google Play Billing is not available. Use another payment flow.
 					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow.<br>";
@@ -26,6 +40,14 @@
 			else {
 				document.getElementById("log").innerHTML += "Digital Goods API is <b>NOT</b> supported!<br>";
 			}
+		}
+
+		function renderProductDetails(itemId, title, price, desc) {
+			document.getElementById("log").innerHTML += "<b>Item details:</b> <br>"
+			document.getElementById("log").innerHTML += "itemId: " + itemId + " <br>"
+			document.getElementById("log").innerHTML += "title: " + title + " <br>"
+			document.getElementById("log").innerHTML += "price: " + price + " <br>"
+			document.getElementById("log").innerHTML += "desc: " + desc + " <br>"
 		}
 
 		// Call the async function
