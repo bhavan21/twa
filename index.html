@@ -22,8 +22,10 @@
 
 					const skuDetails = await service.getDetails(['express_sample_sub', 'express_sample_sub_2']);
 					document.getElementById("log").innerHTML += "Loaded SKUs <br>"
+					var count = 0
 					for (item of skuDetails) {
-					   document.getElementById("log").innerHTML += "----------------------- <br>"
+						count += 1
+					   document.getElementById("log").innerHTML += `----------${count}------------- <br>`
 					 	// Format the price according to the user locale.
 					 	const localizedPrice = new Intl.NumberFormat(
 						      navigator.language,
