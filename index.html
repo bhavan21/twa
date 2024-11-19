@@ -7,7 +7,9 @@
 </head>
 <body>
 	<h1>Sample TWA app</h1>
-	<p id="log"><b>Logs:</b><br></p>	
+	<p id="log"><b>Logs:</b><br></p>
+
+	<div id="products"><b>Buy products:</b><br></div>	
 
 	<script type="text/javascript">
 		async function checkDigitalGoodsSupport() {
@@ -37,11 +39,10 @@
 						        item.itemId, item.title, localizedPrice, item.description);
 						  // Dynamically appending a button with innerHTML
 							const button = document.createElement("button");
-							button.textContent = "Buy now";
+							button.textContent = `Buy now - ${item.itemId}`;
 							button.addEventListener("click", () => makePurchase(service, item.itemId));
 
-							document.getElementById("log").appendChild(button);
-							// document.getElementById("log").innerHTML += "<br>"
+							document.getElementById("products").appendChild(button);
 					}
 				} catch (error) {
 					// Google Play Billing is not available. Use another payment flow.
