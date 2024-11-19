@@ -35,7 +35,7 @@
 					}
 				} catch (error) {
 					// Google Play Billing is not available. Use another payment flow.
-					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow.<br>";
+					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow. " + error.message + "<br>";
 				}
 			}
 			else {
