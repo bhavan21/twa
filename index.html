@@ -20,7 +20,7 @@
 					// Google Play Billing is supported!
 					document.getElementById("log").innerHTML += "Google Play Billing is supported!<br>";
 
-					const skuDetails = await service.getDetails(['shiny_sword', 'gem']);
+					const skuDetails = await service.getDetails(['express_sample_sub']);
 					document.getElementById("log").innerHTML += "Loaded SKUs"
 					for (item of skuDetails) {
 					  // Format the price according to the user locale.
