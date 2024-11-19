@@ -20,7 +20,7 @@
 					// Google Play Billing is supported!
 					document.getElementById("log").innerHTML += "Google Play Billing is supported!<br>";
 
-					const skuDetails = await service.getDetails(['express_sample_sub', 'express_sample_sub_2']);
+					const skuDetails = await service.getDetails(['express_sample_sub_2']);
 					document.getElementById("log").innerHTML += "Loaded SKUs <br>"
 					for (item of skuDetails) {
 					   document.getElementById("log").innerHTML += "----------------------- <br>"
