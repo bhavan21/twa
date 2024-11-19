@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h1>Sample TWA app</h1>
-	<p id="log"></p>	
+	<p id="log"><b>Logs:</b><br></p>	
 
 	<script type="text/javascript">
 		async function checkDigitalGoodsSupport() {
@@ -21,8 +21,9 @@
 					document.getElementById("log").innerHTML += "Google Play Billing is supported!<br>";
 
 					const skuDetails = await service.getDetails(['express_sample_sub']);
-					document.getElementById("log").innerHTML += "Loaded SKUs"
+					document.getElementById("log").innerHTML += "Loaded SKUs <br>"
 					for (item of skuDetails) {
+					   document.getElementById("log").innerHTML += "----------------------- <br>"
 					  // Format the price according to the user locale.
 					  const localizedPrice = new Intl.NumberFormat(
 					      navigator.language,
@@ -33,6 +34,8 @@
 					  renderProductDetails(
 					        item.itemId, item.title, localizedPrice, item.description);
 					}
+					// Dynamically appending a button with innerHTML
+					document.getElementById("log").innerHTML += `<button onclick="handleClick(${service}, ${item.itemId})">Buy now</button>`;
 				} catch (error) {
 					// Google Play Billing is not available. Use another payment flow.
 					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow. " + error.message + "<br>";
@@ -41,6 +44,64 @@
 			else {
 				document.getElementById("log").innerHTML += "Digital Goods API is <b>NOT</b> supported!<br>";
 			}
+		}
+
+
+		async function makePurchase(service, sku) {
+			// Define the preferred payment method and item ID
+			const paymentMethods = [{
+				supportedMethods: "https://play.google.com/billing",
+				data: {
+					sku: sku,
+				}
+		   }];
+			// The "total" member of the paymentDetails is required by the Payment
+		    // Request API, but is not used when using Google Play Billing. We can
+		    // set it up with bogus details.
+			const paymentDetails = {
+				total: {
+					label: `Total`,
+					amount: {currency: `USD`, value: `0`}
+				}
+			};
+			const request = new PaymentRequest(paymentMethods, paymentDetails);
+
+			try {
+				const paymentResponse = await request.show();
+				const {purchaseToken} = paymentResponse.details;
+
+				// Call backend to validate and acknowledge the purchase.
+				if (await acknowledgePurchaseOnBackend(purchaseToken, sku)) {
+
+					 // Optional: consume the purchase, allowing the user to purchase
+		            // the same item again.
+		            // service.consume(purchaseToken);
+
+            
+					// Optional: tell the PaymentRequest API the validation was
+					// successful. The user-agent may show a "payment successful"
+					// message to the user.
+					document.getElementById("log").innerHTML += "The purchase verification at backend is success <br>";
+					const paymentComplete = await paymentResponse.complete('success');
+				} else {
+					// Optional: tell the PaymentRequest API the validation failed. The
+					// user agent may show a message to the user.
+					document.getElementById("log").innerHTML += "The purchase verification at backend is fail <br>";
+					const paymentComplete = await paymentResponse.complete('fail');
+				}
+			} catch(e) {
+				// The purchase failed, and we can handle the failure here. AbortError
+				// usually means a user cancellation
+				document.getElementById("log").innerHTML += `The purchase failed with error: ${e} <br>`;
+			}
+   
+		}
+
+		async function acknowledgePurchaseOnBackend(purchaseToken, sku) {
+			 // Simulating backend acknowledgment
+		    console.log(`Acknowledging purchase with token: ${purchaseToken}, SKU: ${sku}`);
+		    document.getElementById("log").innerHTML += `Acknowledging purchase with token: ${purchaseToken}, SKU: ${sku} <br>`;
+		    return true;
 		}
 
 		function renderProductDetails(itemId, title, price, desc) {
