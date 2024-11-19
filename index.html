@@ -35,7 +35,11 @@
 					        item.itemId, item.title, localizedPrice, item.description);
 					}
 					// Dynamically appending a button with innerHTML
-					document.getElementById("log").innerHTML += `<button onclick="handleClick(${service}, ${item.itemId})">Buy now</button>`;
+					const button = document.createElement("button");
+					button.textContent = "Buy now";
+					button.addEventListener("click", () => makePurchase(service, item.itemId));
+
+					document.getElementById("log").appendChild(button);
 				} catch (error) {
 					// Google Play Billing is not available. Use another payment flow.
 					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow. " + error.message + "<br>";
@@ -77,7 +81,7 @@
 		            // the same item again.
 		            // service.consume(purchaseToken);
 
-            
+
 					// Optional: tell the PaymentRequest API the validation was
 					// successful. The user-agent may show a "payment successful"
 					// message to the user.
