@@ -24,23 +24,23 @@
 					document.getElementById("log").innerHTML += "Loaded SKUs <br>"
 					for (item of skuDetails) {
 					   document.getElementById("log").innerHTML += "----------------------- <br>"
-					  // Format the price according to the user locale.
-					  const localizedPrice = new Intl.NumberFormat(
-					      navigator.language,
-					      {style: 'currency', currency: item.price.currency}
-					    ).format(item.price.value);
+					 	// Format the price according to the user locale.
+					 	const localizedPrice = new Intl.NumberFormat(
+						      navigator.language,
+						      {style: 'currency', currency: item.price.currency}
+						    ).format(item.price.value);
 
-					  // Render the price to the UI.
-					  renderProductDetails(
-					        item.itemId, item.title, localizedPrice, item.description);
+						  // Render the price to the UI.
+						  renderProductDetails(
+						        item.itemId, item.title, localizedPrice, item.description);
+						  // Dynamically appending a button with innerHTML
+							const button = document.createElement("button");
+							button.textContent = "Buy now";
+							button.addEventListener("click", () => makePurchase(service, item.itemId));
+
+							document.getElementById("log").appendChild(button);
+							document.getElementById("log").innerHTML += "<br>"
 					}
-					// Dynamically appending a button with innerHTML
-					const button = document.createElement("button");
-					button.textContent = "Buy now";
-					button.addEventListener("click", () => makePurchase(service, item.itemId));
-
-					document.getElementById("log").appendChild(button);
-					document.getElementById("log").innerHTML += "<br>"
 				} catch (error) {
 					// Google Play Billing is not available. Use another payment flow.
 					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow. " + error.message + "<br>";
