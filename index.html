@@ -55,6 +55,7 @@
 
 
 		async function makePurchase(service, sku) {
+			document.getElementById("log").innerHTML += `makePurchase called with sku: ${sku}`;
 			// Define the preferred payment method and item ID
 			const paymentMethods = [{
 				supportedMethods: "https://play.google.com/billing",
