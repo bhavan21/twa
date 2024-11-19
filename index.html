@@ -7,25 +7,25 @@
 </head>
 <body>
 	<h1>Sample TWA app</h1>
-	<p id="log"><b>Logs:</b><br></p>	
+	<span id="log"><b>Logs:</b><br></span>
 
 	<script type="text/javascript">
 		async function checkDigitalGoodsSupport() {
-			document.getElementById("log").innerHTML += "User agent: " +  window.navigator.userAgent +"<br>";
+			document.getElementById("log").insertAdjacentHTML("User agent: " +  window.navigator.userAgent +"<br>");
 			if ('getDigitalGoodsService' in window) {
 				// Digital Goods API is supported!
-				document.getElementById("log").innerHTML += "Digital Goods API is supported!<br>";
+				document.getElementById("log").insertAdjacentHTML("Digital Goods API is supported!<br>");
 				try {
 					const service = await window.getDigitalGoodsService('https://play.google.com/billing');
 					// Google Play Billing is supported!
-					document.getElementById("log").innerHTML += "Google Play Billing is supported!<br>";
+					document.getElementById("log").insertAdjacentHTML("Google Play Billing is supported!<br>");
 
 					const skuDetails = await service.getDetails(['express_sample_sub', 'express_sample_sub_2']);
-					document.getElementById("log").innerHTML += "Loaded SKUs <br>"
+					document.getElementById("log")..insertAdjacentHTML("Loaded SKUs <br>");
 					var count = 0
-					for (item of skuDetails) {
+					for (let item of skuDetails) {
 						count += 1
-					   document.getElementById("log").innerHTML += `----------${count}------------- <br>`
+					   document.getElementById("log")..insertAdjacentHTML(`----------${count}------------- <br>`);
 					 	// Format the price according to the user locale.
 					 	const localizedPrice = new Intl.NumberFormat(
 						      navigator.language,
@@ -41,21 +41,21 @@
 							button.addEventListener("click", () => makePurchase(service, item.itemId));
 
 							document.getElementById("log").appendChild(button);
-							document.getElementById("log").innerHTML += "<br>"
+							document.getElementById("log").insertAdjacentHTML("<br>")
 					}
 				} catch (error) {
 					// Google Play Billing is not available. Use another payment flow.
-					document.getElementById("log").innerHTML += "Google Play Billing is not available. Use another payment flow. " + error.message + "<br>";
+					document.getElementById("log").insertAdjacentHTML("Google Play Billing is not available. Use another payment flow. " + error.message + "<br>");
 				}
 			}
 			else {
-				document.getElementById("log").innerHTML += "Digital Goods API is <b>NOT</b> supported!<br>";
+				document.getElementById("log").insertAdjacentHTML("Digital Goods API is <b>NOT</b> supported!<br>");
 			}
 		}
 
 
 		async function makePurchase(service, sku) {
-			document.getElementById("log").innerHTML += `makePurchase called with sku: ${sku}`;
+			document.getElementById("log").insertAdjacentHTML(`makePurchase called with sku: ${sku}`);
 			// Define the preferred payment method and item ID
 			const paymentMethods = [{
 				supportedMethods: "https://play.google.com/billing",
@@ -89,18 +89,18 @@
 					// Optional: tell the PaymentRequest API the validation was
 					// successful. The user-agent may show a "payment successful"
 					// message to the user.
-					document.getElementById("log").innerHTML += "The purchase verification at backend is success <br>";
+					document.getElementById("log").insertAdjacentHTML("The purchase verification at backend is success <br>");
 					const paymentComplete = await paymentResponse.complete('success');
 				} else {
 					// Optional: tell the PaymentRequest API the validation failed. The
 					// user agent may show a message to the user.
-					document.getElementById("log").innerHTML += "The purchase verification at backend is fail <br>";
+					document.getElementById("log").insertAdjacentHTML("The purchase verification at backend is fail <br>");
 					const paymentComplete = await paymentResponse.complete('fail');
 				}
 			} catch(e) {
 				// The purchase failed, and we can handle the failure here. AbortError
 				// usually means a user cancellation
-				document.getElementById("log").innerHTML += `The purchase failed with error: ${e} <br>`;
+				document.getElementById("log").insertAdjacentHTML(`The purchase failed with error: ${e} <br>`);
 			}
    
 		}
@@ -108,16 +108,16 @@
 		async function acknowledgePurchaseOnBackend(purchaseToken, sku) {
 			 // Simulating backend acknowledgment
 		    console.log(`Acknowledging purchase with token: ${purchaseToken}, SKU: ${sku}`);
-		    document.getElementById("log").innerHTML += `Acknowledging purchase with token: ${purchaseToken}, SKU: ${sku} <br>`;
+		    document.getElementById("log").insertAdjacentHTML(`Acknowledging purchase with token: ${purchaseToken}, SKU: ${sku} <br>`);
 		    return true;
 		}
 
 		function renderProductDetails(itemId, title, price, desc) {
-			document.getElementById("log").innerHTML += "<b>Item details:</b> <br>"
-			document.getElementById("log").innerHTML += "itemId: " + itemId + " <br>"
-			document.getElementById("log").innerHTML += "title: " + title + " <br>"
-			document.getElementById("log").innerHTML += "price: " + price + " <br>"
-			document.getElementById("log").innerHTML += "desc: " + desc + " <br>"
+			document.getElementById("log").insertAdjacentHTML("<b>Item details:</b> <br>")
+			document.getElementById("log").insertAdjacentHTML("itemId: " + itemId + " <br>")
+			document.getElementById("log").insertAdjacentHTML("title: " + title + " <br>")
+			document.getElementById("log").insertAdjacentHTML("price: " + price + " <br>")
+			document.getElementById("log").insertAdjacentHTML("desc: " + desc + " <br>")
 		}
 
 		// Call the async function
