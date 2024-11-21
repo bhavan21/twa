@@ -61,6 +61,7 @@
 
 		async function listPurchases(service) {
 			const existingPurchases = await service.listPurchases();
+			document.getElementById("log").innerHTML += "listPurchases func called <br>"
 			for (const p of existingPurchases) {
 				await acknowledgePurchaseOnBackend(p.purchaseToken, p.itemId);
 
