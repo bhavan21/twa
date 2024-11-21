@@ -39,8 +39,9 @@
 						        item.itemId, item.title, localizedPrice, item.description);
 						  // Dynamically appending a button with innerHTML
 							const button = document.createElement("button");
+							button.setAttribute("data-productid", item.itemId);
 							button.textContent = `Buy now - ${item.itemId}`;
-							button.addEventListener("click", () => makePurchase(service, item.itemId));
+							button.addEventListener("click", () => makePurchase(service, event.target.getAttribute("data-productid")));
 
 							document.getElementById("products").appendChild(button);
 					}
